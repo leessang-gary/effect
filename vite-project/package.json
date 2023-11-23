@@ -8,6 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/icons-vue": "^7.0.1",
+    "ant-design-vue": "^4.0.7",
     "gsap-trial": "^3.12.2",
     "pinia": "^2.1.7",
     "vue": "^3.3.4",
@@ -15,6 +17,8 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.4.0",
+    "sass": "^1.69.5",
+    "unplugin-vue-components": "^0.25.2",
     "vite": "^4.4.11"
   }
 }

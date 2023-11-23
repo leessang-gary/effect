@@ -1,0 +1,125 @@
+$main_color: #2A3A47;
+/* flex 布局 */
+.flex {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.flex_c {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.flex_w {
+  flex-wrap: wrap;
+}
+
+.flex_r_a {
+  justify-content: space-around;
+}
+
+.flex_r_b {
+  justify-content: space-between;
+}
+
+.flex_r_c {
+  justify-content: center;
+}
+
+.flex_r_e {
+  justify-content: flex-end;
+}
+.flex_r_l {
+  align-items: baseline;
+}
+
+/*---------font-size----------*/
+$size-number: 50;
+@for $i from 10 through $size-number {
+  .font-#{$i} {
+    font-size: 2rpx * $i;
+    line-height: 3rpx * $i;
+  }
+}
+/*---------font-color----------*/
+.font-primary {
+  color: $main_color;
+}
+
+$opacity-number: 9;
+@for $i from 1 through $opacity-number {
+  .font-primary-#{$i} {
+    color: $main_color;
+    opacity: .1 * $i;
+  }
+}
+.font-fff {
+  color: #fff;
+}
+.font-ccc {
+  color: #ccc;
+}
+.font-888 {
+  color: #888;
+}
+.font-333 {
+  color: #333;
+}
+
+/*---------font-show----------*/
+.font-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.font-ellipsis-2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.font-nowrap {
+  white-space: nowrap;
+}
+.font-linethrough {
+  text-decoration:line-through;
+}
+.font-l {
+  font-weight: 300;
+}
+.font-b {
+  font-weight: 700;
+}
+
+/*--------- margin padding ----------*/
+$edge-number: 50;
+@for $i from 1 through $edge-number {
+  .mt-#{$i} {
+    margin-top: 2rpx * $i;
+  }
+  .mr-#{$i} {
+    margin-right: 2rpx * $i;
+  }
+  .mb-#{$i} {
+    margin-bottom: 2rpx * $i;
+  }
+  .ml-#{$i} {
+    margin-left: 2rpx * $i;
+  }
+  .pt-#{$i} {
+    padding-top: 2rpx * $i;
+  }
+  .pr-#{$i} {
+    padding-right: 2rpx * $i;
+  }
+  .pb-#{$i} {
+    padding-bottom: 2rpx * $i;
+  }
+  .pl-#{$i} {
+    padding-left: 2rpx * $i;
+  }
+}
+
+
+
