@@ -1,7 +1,7 @@
 <template>
   <a-layout class="box">
     <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
-      <siderBase :list="siderMenus" />
+      <siderBase :list="dicts.siderMenus" />
     </a-layout-sider>
     <a-layout class="content">
       <a-layout-header class="header flex">
@@ -23,14 +23,14 @@ import siderBase from "@/components/sider/base.vue";
 import HelloWorld from "@/components/HelloWorld.vue";
 
 import { RouterLink, RouterView } from 'vue-router';
-import { siderMenus } from '@/utils/dicts.js';
+import dicts  from '@/utils/dicts.js';
+
 import { 
   MenuFoldOutlined, 
   MenuUnfoldOutlined 
 } from '@ant-design/icons-vue';
 
 import { ref } from 'vue';
-
 const collapsed = ref(false);
 </script>
 <style lang="scss" scoped>
