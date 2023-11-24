@@ -3,6 +3,7 @@ import { fileURLToPath, URL } from "node:url";
 
 import { defineConfig } from "vite";
 import Components from 'unplugin-vue-components/vite';
+import requireTransform from 'vite-plugin-require-transform';
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
 import vue from "@vitejs/plugin-vue";
 
@@ -16,6 +17,9 @@ export default defineConfig({
           importStyle: false, // css in js
         }),
       ],
+    }),
+    requireTransform({
+      fileRegex: /.js$|.vue$/ ,
     }),
   ],
   resolve: {
