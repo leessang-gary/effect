@@ -13,17 +13,21 @@
    <div @click="handleAnimate" class="btn">
       Run
    </div>
-   
+   <div ref="wo"></div>
 </template>
 <script setup>
 import { ref, reactive , onMounted } from "vue";
 const HanziWriter = require('hanzi-writer');
 const dao = ref(null)
 const da = ref(null)
+const wo = ref(null)
+
 let daoChar = null;
 let daChar = null;
+let woChar = null;
+
 function init(){
-  daoChar = HanziWriter.create(dao.value, '到', {
+  daoChar = HanziWriter.create(dao.value, '蘇', {
     width: 40,
     height: 40,
     padding: 5,
@@ -49,28 +53,46 @@ function init(){
   // writer.loopCharacterAnimation(); // 循环动画
 
   // 添加一个 svg 汉字
-  HanziWriter.loadCharacterData('瑾').then(function(charData) {
+  HanziWriter.loadCharacterData('到').then(function(charData) {
     var target = dao.value
-    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.style.width = '50px';
-    svg.style.height = '50px';
-    target.appendChild(svg);
-    var group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    for (var i = 0; i < charData.strokes.length; i++) {
+      var strokesPortion = charData.strokes.slice(0, i + 1);
+      renderFanningStrokes(target, strokesPortion);
+    }
+  });
 
-    // set the transform property on the g element so the character renders at 150x150
-    var transformData = HanziWriter.getScalingTransform(50, 50);
-    group.setAttributeNS(null, 'transform', transformData.transform);
-    svg.appendChild(group);
+  // 从本地读取笔画 只要加入 charDataLoader 参数就不会从网络获取了
+  const woData = require('hanzi-writer-data/我');
+  woChar = HanziWriter.create(wo.value, '我', {
+    charDataLoader: function() {
+      return woData;
+    } 
+  });  
+}
+function renderFanningStrokes(target, strokes) {
+  var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.style.width = '75px';
+  svg.style.height = '75px';
+  svg.style.border = '1px solid #EEE'
+  svg.style.marginRight = '3px'
+  target.appendChild(svg);
+  console.log(svg)
+  var group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
 
-    charData.strokes.forEach(function(strokePath) {
-      var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      path.setAttributeNS(null, 'd', strokePath);
-      // style the character paths
-      path.style.fill = '#333';
-      group.appendChild(path);
-    });
+  // set the transform property on the g element so the character renders at 75x75
+  var transformData = HanziWriter.getScalingTransform(75, 75);
+  group.setAttributeNS(null, 'transform', transformData.transform);
+  svg.appendChild(group);
+
+  strokes.forEach(function(strokePath) {
+    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttributeNS(null, 'd', strokePath);
+    // style the character paths
+    path.style.fill = '#555';
+    group.appendChild(path);
   });
 }
+
 
 const handleAnimate = ()=>{
   // base 动画

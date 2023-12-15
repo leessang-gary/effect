@@ -13,7 +13,8 @@ const routes = [
       { path: '/home/gsap', name: 'gsap', component: () => import('@/views/gsap.vue'), icon: MailOutlined,},
       { path: '/home/about', name: 'about', component: () => import('@/views/about.vue'), icon: CalendarOutlined, },
       { path: '/home/anime', name: 'anime', component: () => import('@/views/anime.vue'), icon: AppstoreOutlined, },
-      { path: '/home/hanziwrite', name: 'hanziwrite', component: () => import('@/views/hanziwrite.vue'), icon: SettingOutlined, }
+      { path: '/home/hanziwrite', name: 'hanziwrite', component: () => import('@/views/hanziwrite.vue'), icon: SettingOutlined, },
+      { path: '/home/svg', name: 'svg', component: () => import('@/views/svg.vue'), icon: CalendarOutlined, }
     ]
   },
   

@@ -9,14 +9,17 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^7.0.1",
+    "animejs": "^3.2.2",
     "ant-design-vue": "^4.0.7",
     "gsap-trial": "^3.12.2",
     "hanzi-writer": "^3.6.0",
+    "hanzi-writer-data": "^2.0.1",
     "pinia": "^2.1.7",
     "vue": "^3.3.4",
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
+    "@svgdotjs/svg.js": "^3.2.0",
     "@vitejs/plugin-vue": "^4.4.0",
     "sass": "^1.69.5",
     "unplugin-vue-components": "^0.25.2",

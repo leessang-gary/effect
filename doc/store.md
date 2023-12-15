@@ -1,7 +1,9 @@
-svg 基础知识参考文档 https://juejin.cn/post/7124312346947764260?searchId=2023112113562707B0BAE4D568E57FF656#heading-75
+# 参考资料
+
+svg 基础知识 https://juejin.cn/post/7124312346947764260?searchId=2023112113562707B0BAE4D568E57FF656#heading-75
 
 1. Letterize.js
-2. Anime.js
+2. Anime.js http://blog.fer-link.com/demo/20220915111146/index2.html
 3. GreenSock https://gsap.com/
 4. https://www.iconfont.cn/
 5. sketch
