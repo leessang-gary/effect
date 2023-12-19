@@ -23,7 +23,7 @@ import siderBase from "@/components/sider/base.vue";
 import HelloWorld from "@/components/HelloWorld.vue";
 
 import { RouterLink, RouterView } from 'vue-router';
-import dicts  from '@/utils/dicts.js';
+import dicts from '@/utils/dicts.js';
 
 import { 
   MenuFoldOutlined, 

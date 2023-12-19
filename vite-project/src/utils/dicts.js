@@ -1,4 +1,6 @@
-import home from '@/views/home.vue'
+import home from '@/views/home/index.vue'
+import run from '@/views/home/index.vue'
+import login from '@/views/login/index.vue'
 import tools from '@/utils/tools.js'
 import { h, ref } from 'vue';
 import { MailOutlined, CalendarOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons-vue';
@@ -6,21 +8,25 @@ import { MailOutlined, CalendarOutlined, AppstoreOutlined, SettingOutlined } fro
 // tools.csl()
 
 // 路由
-const routes = [
+const siderRoutes = [
   { 
     path: '/', name: 'home', component: home,  icon: MailOutlined,
     children:[
-      { path: '/home/gsap', name: 'gsap', component: () => import('@/views/gsap.vue'), icon: MailOutlined,},
       { path: '/home/about', name: 'about', component: () => import('@/views/about.vue'), icon: CalendarOutlined, },
-      { path: '/home/anime', name: 'anime', component: () => import('@/views/anime.vue'), icon: AppstoreOutlined, },
-      { path: '/home/hanziwrite', name: 'hanziwrite', component: () => import('@/views/hanziwrite.vue'), icon: SettingOutlined, },
-      { path: '/home/svg', name: 'svg', component: () => import('@/views/svg.vue'), icon: CalendarOutlined, }
     ]
   },
-  
+  { 
+    path: '/run', name: 'run', component: run,  icon: MailOutlined,
+    children:[
+      { path: '/home/gsap', name: 'gsap', component: () => import('@/views/run/gsap.vue'), icon: MailOutlined,},
+      { path: '/home/anime', name: 'anime', component: () => import('@/views/run/anime.vue'), icon: AppstoreOutlined, },
+      { path: '/home/hanziwrite', name: 'hanziwrite', component: () => import('@/views/run/hanziwrite.vue'), icon: SettingOutlined, },
+      { path: '/home/svg', name: 'svg', component: () => import('@/views/run/svg.vue'), icon: CalendarOutlined, }
+    ]
+  }, 
 ]
 // 侧边栏菜单
-const siderMenus = routes.map( route => {
+const siderMenus = siderRoutes.map( route => {
   const obj = {
     key: route.name,
     icon: () => h(route.icon),
@@ -42,6 +48,12 @@ const siderMenus = routes.map( route => {
   return obj
 })
 
+// 非侧边栏路由页面
+const otherRoutes = [
+  { path: '/login', name: 'login', component: login },
+]
+
+const routes = [...siderRoutes, ...otherRoutes ]
 export default {
   siderMenus,
   routes
