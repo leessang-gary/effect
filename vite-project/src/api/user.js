@@ -34,8 +34,6 @@ const user = {
     return Api.get(`/effect/getUserInfo`);
   },
 
-
-
   /** role 相关 */   
   // 查询 role 列表
   getRoleList({limit, offset} ) {

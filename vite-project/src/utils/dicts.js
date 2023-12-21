@@ -1,5 +1,4 @@
 import home from '@/views/home/index.vue'
-import run from '@/views/home/index.vue'
 import login from '@/views/login/index.vue'
 import tools from '@/utils/tools.js'
 import { h, ref } from 'vue';
@@ -12,11 +11,11 @@ const siderRoutes = [
   { 
     path: '/', name: 'home', component: home,  icon: MailOutlined,
     children:[
-      { path: '/home/about', name: 'about', component: () => import('@/views/about.vue'), icon: CalendarOutlined, },
+      { path: '/home/about', name: 'about', component: () => import('@/views/home/about.vue'), icon: CalendarOutlined, },
     ]
   },
   { 
-    path: '/run', name: 'run', component: run,  icon: MailOutlined,
+    path: '/', name: 'run', component: home,  icon: MailOutlined,
     children:[
       { path: '/home/gsap', name: 'gsap', component: () => import('@/views/run/gsap.vue'), icon: MailOutlined,},
       { path: '/home/anime', name: 'anime', component: () => import('@/views/run/anime.vue'), icon: AppstoreOutlined, },
@@ -53,8 +52,22 @@ const otherRoutes = [
   { path: '/login', name: 'login', component: login },
 ]
 
+// 总路由
 const routes = [...siderRoutes, ...otherRoutes ]
+
+// 随机生成的用户名
+const surname = `去此取彼`
+
+const fiveColors = `青、黄、赤、白、黑`
+const fiveSounds = `宫、商、角、徵、羽`
+const fiveTastes = `酸、苦、甘、辛、咸`
+
+const firstName = [...surname.split('')]
+const secondName = [...fiveColors.split(`、`),...fiveSounds.split(`、`),...fiveTastes.split(`、`),] 
+
 export default {
   siderMenus,
-  routes
+  routes,
+  firstName,
+  secondName
 }

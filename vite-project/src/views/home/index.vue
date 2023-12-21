@@ -9,8 +9,9 @@
           <MenuUnfoldOutlined v-if="collapsed"  />
           <MenuFoldOutlined v-else />
         </div>
-        <HelloWorld msg="Hello" />
+        <top :msgInfo="msgInfo" @handleChangeInfo="handleChangeInfo"> 这是一个slot </top>
       </a-layout-header>
+      <navTabs />
       <a-layout-content class="middle">
         <router-view></router-view>
       </a-layout-content>
@@ -20,9 +21,10 @@
 
 <script setup>
 import siderBase from "@/components/sider/base.vue";
-import HelloWorld from "@/components/HelloWorld.vue";
+import top from "@/components/sider/top.vue";
+import navTabs from "@/components/sider/navTabs.vue";
 
-import { RouterLink, RouterView } from 'vue-router';
+// import { RouterLink, RouterView } from 'vue-router';
 import dicts from '@/utils/dicts.js';
 
 import { 
@@ -32,6 +34,11 @@ import {
 
 import { ref } from 'vue';
 const collapsed = ref(false);
+
+const msgInfo = ref('Hello')
+const handleChangeInfo = (info)=>{
+  msgInfo.value = info
+}
 </script>
 <style lang="scss" scoped>
 .box {
@@ -43,7 +50,6 @@ const collapsed = ref(false);
     .header {
       background: #fff;
       padding: 0;
-
       .trigger {
         font-size: 18px;
         line-height: 64px;

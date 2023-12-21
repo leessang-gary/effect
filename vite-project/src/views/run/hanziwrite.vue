@@ -16,6 +16,8 @@
    <div ref="wo"></div>
 </template>
 <script setup>
+import { message } from "ant-design-vue";
+import Api from '@/api';
 import { ref, reactive , onMounted } from "vue";
 const HanziWriter = require('hanzi-writer');
 const dao = ref(null)
@@ -27,6 +29,11 @@ let daChar = null;
 let woChar = null;
 
 function init(){
+  getData('前端')
+
+
+
+
   daoChar = HanziWriter.create(dao.value, '蘇', {
     width: 40,
     height: 40,
@@ -110,7 +117,14 @@ const handleAnimate = ()=>{
     }
   }); 
 }
+const getData = async (text)=>{
+  const res = await Api.svgApi.queryStrokes({ charsList: text.split('')})
+  if(res.code == 0){
 
+  } else {
+    message(res.data)
+  }
+}
 onMounted(() => {
   init()
 });
