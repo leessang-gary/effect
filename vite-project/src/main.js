@@ -1,4 +1,5 @@
 import './assets/style/main.css'
+import 'amfe-flexible'
 
 import { createApp } from 'vue'
 

@@ -23,6 +23,9 @@
   "devDependencies": {
     "@svgdotjs/svg.js": "^3.2.0",
     "@vitejs/plugin-vue": "^4.4.0",
+    "amfe-flexible": "^2.2.1",
+    "autoprefixer": "^10.4.16",
+    "postcss-pxtorem": "^6.0.0",
     "sass": "^1.69.5",
     "unplugin-vue-components": "^0.25.2",
     "vite": "^4.4.11",
