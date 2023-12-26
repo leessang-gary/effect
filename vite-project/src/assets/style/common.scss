@@ -5,7 +5,9 @@ $main_color: #2A3A47;
   flex-direction: row;
   align-items: center;
 }
-
+.flex_s {
+  align-items: flex-start;
+}
 .flex_c {
   flex-direction: column;
   align-items: flex-start;

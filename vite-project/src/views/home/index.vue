@@ -11,8 +11,8 @@
         </div>
         <top :msgInfo="msgInfo" @handleChangeInfo="handleChangeInfo"> 这是一个slot </top>
       </a-layout-header>
-      <navTabs />
       <a-layout-content class="middle">
+        <navTabs />
         <router-view></router-view>
       </a-layout-content>
     </a-layout>
@@ -64,7 +64,8 @@ const handleChangeInfo = (info)=>{
     }
 
     .middle {
-      // background: red;
+      overflow-y: auto;
+      overflow-x: hidden;
     }
   }
 }
