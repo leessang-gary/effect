@@ -13,9 +13,23 @@ function randomArrItem(arr){
 function autoGenerationName(){
   return randomArrItem(dicts.firstName) + randomArrItem(dicts.secondName) 
 }
+
+// 动画字符 promise
+function animateCharacter(writer){
+  return new Promise(resolve=>{
+    writer.animateCharacter({
+      onComplete: function() {
+        resolve()
+      }
+    }); 
+  })
+} 
+
+
 export default {
   csl,
   autoGenerationName,
+  animateCharacter,
 }
 
 

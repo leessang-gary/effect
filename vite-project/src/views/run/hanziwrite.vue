@@ -8,37 +8,23 @@
   https://hanziwriter.org/cn/docs.html
  -->
 <template>
-  <div class="pageContainer flex flex_s">
+  <div class="pageContainer flex flex_s"> 
     <div class="left">
+      <a-tabs v-model:activeKey="activeKey">
+        <a-tab-pane key="1" tab="single">
+          <single />
+        </a-tab-pane>
+        <a-tab-pane key="2" tab="articles">
+          <articles />
+        </a-tab-pane>
+        <a-tab-pane key="3" tab="other" force-render>
+          Content of Tab Pane 3
+        </a-tab-pane>
+      </a-tabs>
+      
 
-      <div class="textShow flex flex_r_c mt-10">
-        <div ref="demoDom"></div>
-      </div>
-      <a-space wrap>
-        <a-button type="primary" block @click="renderFormConfig">新建汉字</a-button>
-        <a-button type="primary" block @click="setCharacter">重置新字</a-button>
-        <a-button type="primary" block @click="showCharacter">显示汉字</a-button>
-        <a-button type="primary" block @click="hideCharacter">隐藏汉字</a-button>
-        <a-button type="primary" block @click="showOutline">显示轮廓</a-button>
-        <a-button type="primary" block @click="hideOutline">隐藏轮廓</a-button>
-        <a-button type="primary" block @click="updateDimensions(30,30,3)">更改(宽:30 高:30 边距:3) </a-button>
-        <a-button type="primary" block @click="updateColor">更改颜色#ff0000</a-button>
-        <a-button type="primary" block @click="quiz">测验</a-button>
-        <a-button type="primary" block @click="cancelQuiz">取消测验</a-button>
-        <a-button type="primary" block @click="animateCharacter()">动画文字</a-button>
-      </a-space>
     </div>
-    <configForm class="right" 
-      ref="configFormRef"
-      @createText="createText"
-      @updateDimensions="updateDimensions"
-      @updateColor="updateColor"
-      @showCharacter="showCharacter"
-      @hideCharacter="hideCharacter"
-      @showOutline="showOutline"
-      @hideOutline="hideOutline"
-      @animateCharacter="animateCharacter"
-    />
+    <hanziForm class="right"  ref="hanziFormRef" @handleEmit="handleEmit" />
   </div>
   
   
@@ -51,112 +37,21 @@
 </template>
 <script setup>
 import { message } from "ant-design-vue";
-import Api from '@/api';
-import { ref, reactive , onMounted } from "vue";
+import { ref, reactive , onMounted, nextTick } from "vue";
 
-import configForm from "@/components/form/hanziConfig.vue";
+import hanziForm from "./components/hanziForm.vue";
+import single from "./components/hanziSingle.vue"; 
+import articles from "./components/hanziArticle.vue"; 
+
+
 const HanziWriter = require('hanzi-writer'); // 获取 HanziWriter 类
+const activeKey = ref('2');
+const hanziFormRef = ref() // 表单子组件
 
-const demoDom = ref(null); // demo dom
-let demoChar = null; // demo 实例 
-
-const configFormRef = ref() // 子组件
-// 创建字符
-const createText = async(defaultConfig = {}) => {
-  const txt = defaultConfig.sourceTxt
-  if(!txt) {
-    message.error('请输入汉字')
-    return
-  }
-  // console.log(demoDom.value)
-  // 清空已经加入的内容
-  demoDom.value.innerHTML = "";
-  // HanziWriter实例
-  demoChar = null;
-  // 从本地读取笔画数据 只要加入 charDataLoader 参数就不会从网络获取了
-  // const data = require('hanzi-writer-data/只');
-  // demoChar = HanziWriter.create(demoDom.value, '我', {})
-
-  // 从数据库获取笔画数据
-  const strokes = await getData(txt);
-  // console.error(strokes)
-  const data = strokes[0].data;
-  demoChar = HanziWriter.create(demoDom.value, txt, {
-    ...defaultConfig,
-    charDataLoader: function() {
-      return data;
-    } 
-  }); 
-};
-// 加载一个新的汉字并渲染 -- 没成功
-const setCharacter = ()=>{
-  demoChar.setCharacter(suChar)
+// 父组件接收表单子组件的值
+const handleEmit = async(data) =>{
+  console.log(data)
 }
-// 显示当前隐藏的汉字。
-const showCharacter = ()=>{
-  demoChar.showCharacter()
-}
-// 隐藏当前显示的汉字。
-const hideCharacter = ()=>{
-  demoChar.hideCharacter()
-}
-// 显示当前隐藏汉字的轮廓。
-const showOutline = ()=>{
-  if(demoChar) demoChar.showOutline()
-}
-// 隐藏当前汉字显示的轮廓。
-const hideOutline = ()=>{
-  if(demoChar) demoChar.hideOutline()
-}
-// 更改宽高边距
-const updateDimensions = (width, height, padding)=>{
-  demoChar.updateDimensions({
-    width, height, padding
-  })
-}
-// 更改任何颜色选项的值。
-const updateColor = ({
-  strokeColor = '#ff0000', 
-  radicalColor = '#ff0000', 
-  outlineColor = '#ff0000', 
-  highlightColor = '#ff0000', 
-  drawingColor = '#ff0000'
-})=>{
-  if(demoChar){
-    demoChar.updateColor('strokeColor', strokeColor)
-    demoChar.updateColor('radicalColor', radicalColor)
-    demoChar.updateColor('outlineColor', outlineColor)
-    demoChar.updateColor('highlightColor', highlightColor)
-    demoChar.updateColor('drawingColor', drawingColor)
-  }
-
-}
-// 立即取消当前运行的测验
-const quiz = ()=>{
-  demoChar.quiz()
-}
-// 立即取消当前运行的测验
-const cancelQuiz = ()=>{
-  demoChar.cancelQuiz()
-}
-
-// 写字动画 传参没用 -- 只能初始化时设置速度
-const animateCharacter = async (config)=>{
-  // config 表单重新传动画速度参数
-  if(config){
-    await createText(config)
-  }
-  demoChar.animateCharacter({
-    onComplete :function(){
-      console.log('demo 动画完成' )
-      // 单笔画动画
-      // demoChar.animateStroke(0)
-    }
-  })
-}
-
-
-
 
 const su = ref(null)
 const da = ref(null)
@@ -189,14 +84,10 @@ function init(){
     delayBetweenLoops: 3000
   });
 
-  renderFormConfig();
-  renderOneChar()
-
-}
-// 初始化子组件
-function renderFormConfig(){
   // 父组件调用子组件 init 方法
-  configFormRef.value.init()
+  hanziFormRef.value.init();
+  // renderOneChar()
+
 }
 
 // 创建一个汉字 并获取它的所有笔画 svg显示
@@ -253,14 +144,10 @@ const handleAnimate = ()=>{
   }); 
 }
 
-// 查询接口数据
-const getData = async (val)=>{
-  const res = await Api.svgApi.queryStrokes({ charsList: val.split('')})
-  return res.data
-}
 onMounted(() => {
   init()
 });
+
 </script>
 <style lang="scss" scoped>
 .pageContainer {
@@ -268,13 +155,6 @@ onMounted(() => {
   height: 100%;
   .left {
     flex:1;
-    .textShow {
-      width: 100px;
-      height: 100px;
-      border: 1px solid #000;
-      margin-top: 300px;
-      
-    }
   }
   .right {
     flex:3;

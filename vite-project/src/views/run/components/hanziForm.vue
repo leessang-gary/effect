@@ -13,7 +13,8 @@
       </a-col>
       <a-col>
         <a-form-item name="sourceTxt" label="sourceTxt" >
-          <a-input v-model:value="formState.sourceTxt"/>
+          <a-input-search v-model:value="formData.sourceTxt" @search="onSearch"
+          style="width: 200px"/>
         </a-form-item>
       </a-col>
     </a-row>
@@ -190,19 +191,26 @@
   </a-form>
 </template>
 <script setup>
-import { reactive, watch, watchEffect } from 'vue';
+import { reactive, watch, watchEffect, computed } from 'vue';
+import { message } from "ant-design-vue";
+import { useHanziFormStore } from '@/store/form'
+import { storeToRefs } from 'pinia'
+import Api from '@/api';
 
+// 获取表单配置 store
+const store = useHanziFormStore();
+
+// 使用 const { formState } = store 破坏响应式
+// 1. const formState = store.hanziConfig;
+// 2. const formState = computed(()=> store.hanziConfig)
+// 3. const { formState } = storeToRefs(store)
+
+const formState = store.hanziConfig;
+const formData = store.hanziData;
 
 // 定义组件事件
 const emit = defineEmits([
-  'createText',
-  'updateDimensions',
-  'updateColor',
-  'showCharacter',
-  'hideCharacter',
-  'showOutline',
-  'hideOutline',
-  'animateCharacter'
+  'handleEmit',
 ])
 
 // 显示暴露子组件属性方法 -- 父组件使用
@@ -222,38 +230,20 @@ const colors = [
   { label:'灰色', value :'#dddddd'},
 ]
 
-const formState = reactive({
-  sourceTxt:'只',
-  showOutline: false,
-  showCharacter: true,
-  width: 30,
-  height: 30,
-  padding: 4,
-  strokeAnimationSpeed: 1,
-  delayBetweenStrokes: 100,
 
-  strokeHighlightSpeed: 20,
-  strokeFadeDuration: 400,
-  
-  delayBetweenLoops: 2000,
-  strokeColor: '#000000',
-  radicalColor: '#000000',
-  highlightColor: '#dddddd',
-  outlineColor: '#dddddd',
-  drawingColor: '#000000',
-});
 
 // 侦听器 -- watch
 // 不能直接侦听响应式对象的属性值,这里需要用一个返回该属性的 getter 函数：
 
-// 一个值
+// 1. 侦听一个值改变
 watch(
   ()=> formState.showCharacter,
   (flag)=>{
-    flag? emit('showCharacter') : emit('hideCharacter')
+    console.log(flag)
+    // do something
   }
 )
-// 多个距离值修改
+// 2. 侦听多个值改变
 watch(
   [
     ()=> formState.width,
@@ -261,47 +251,26 @@ watch(
     ()=> formState.padding,
   ],
   ([width,height,padding])=>{
-    emit('updateDimensions', width, height, padding )
+    console.log(`width: ${width},height:${height},padding:${padding}`)
+    // do something
   },
   // { deep: true }
   // { immediate: true }
 )
 // 侦听器 -- watchEffect 简化，参数使用的是函数
 // q: 会立即执行
-// 一个值
+// 1. 侦听一个值改变
 watchEffect(()=>{
-  formState.showOutline ? emit('showOutline') : emit('hideOutline')
+  console.log(`showOutline: ${formState.showOutline}`)
+  // do something
 })
 
-// 多个颜色属性值更改
+// 2. 侦听多个值改变
 watchEffect(()=>{
-  emit('updateColor',{
-    strokeColor: formState.strokeColor,
-    radicalColor: formState.radicalColor,
-    highlightColor: formState.highlightColor,
-    outlineColor: formState.outlineColor,
-    drawingColor: formState.drawingColor,
-  })
+  console.log(`color change`)
+  // do something
 })
 
-// 输入内容更改
-watch(
-  ()=>formState.sourceTxt,
-  ()=>{
-    emit('createText', formState )
-  }
-)
-
-// 笔画时间更改
-watch(
-  [
-    ()=> formState.strokeAnimationSpeed,
-    ()=> formState.delayBetweenStrokes,
-  ],
-  ()=>{
-    emit('animateCharacter', formState)
-  }
-)
 
 // 提交表单
 const onFinish = values => {
@@ -312,11 +281,25 @@ const onFinishFailed = errorInfo => {
   console.log('Failed:', errorInfo);
 };
 
+// 文本搜索
+const onSearch = async(searchValue)=>{
+  if(!searchValue) {
+    message.error('请输入汉字')
+    return
+  }
+  const res = await Api.svgApi.queryStrokes({ 
+    charsList: searchValue.split('')
+  })
+  if(res.code == 0){
+    formData.strokes = res.data;
+  }
+}
+
 // 初始化
 function init(){
-  // 创建
-  emit('createText', formState )
-  // 创建 + 动画
-  // emit('animateCharacter', formState)
+  console.log('hanziForm 初始化')
+  // 向父组件 触发事件
+  emit('handleEmit', 'hanziForm 向父组件 触发事件' )
+  
 }
 </script>
