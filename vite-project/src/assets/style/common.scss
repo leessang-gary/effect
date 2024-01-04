@@ -96,7 +96,7 @@ $opacity-number: 9;
 
 /*--------- margin padding ----------*/
 $edge-number: 50;
-@for $i from 1 through $edge-number {
+@for $i from 0 through $edge-number {
   .mt-#{$i} {
     margin-top: 1px * $i;
   }

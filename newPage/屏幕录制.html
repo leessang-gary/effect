@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>屏幕录制</title>
+  </head>
+  <body>
+    <button id="toggle">start recording</button>
+    <script>
+      var RECORDING_ONGOING = false;
+      var recordingToggle = document.getElementById("toggle"); // 按钮
+
+      recordingToggle.addEventListener("click", function () {
+        RECORDING_ONGOING = !RECORDING_ONGOING; // 开始 / 停止 录制
+        if (RECORDING_ONGOING) {
+          recordingToggle.innerHTML = "Stop Recording";
+          startRecording(); // 开始录制
+        } else {
+          recordingToggle.innerHTML = "Start Recording";
+          stopRecording(); // 停止录制
+        }
+      });
+
+      var blob;
+      var recorder = null;
+      var chunks = [];
+      async function startRecording() {
+        var stream = await navigator.mediaDevices.getDisplayMedia({
+          video: { mediaSource: "screen" },
+          audio: true,
+        });
+        recorder = new MediaRecorder(stream, { mimeType: "video/webm" });
+        recorder.ondataavailable = (e) => {
+          if (e.data.size > 0) {
+            chunks.push(e.data);
+          }
+        };
+        recorder.onstop = () => {
+          chunks = [];
+        };
+        recorder.start(250);
+      }
+      function stopRecording() {
+        var filename = window.prompt("File name", "video"); // Ask the file name
+
+        recorder.stop(); // 停止录制
+        blob = new Blob(chunks, { type: "video/webm" });
+        chunks = []; // 重置数据块
+        var dataDownloadUrl = URL.createObjectURL(blob);
+
+        // 将其下载到用户的设备上
+        let a = document.createElement("a");
+        a.href = dataDownloadUrl;
+        a.download = `${filename}.webm`;
+        a.click();
+
+        URL.revokeObjectURL(dataDownloadUrl);
+      }
+
+      console.log(MediaRecorder.isTypeSupported("video/webm"));
+      console.log(MediaRecorder.isTypeSupported("video/mp4"));
+      console.log(MediaRecorder.isTypeSupported("video/mp4;codecs=avc1"));
+    </script>
+  </body>
+</html>

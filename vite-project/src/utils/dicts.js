@@ -4,7 +4,7 @@ import tools from '@/utils/tools.js'
 import { h, ref } from 'vue';
 import { MailOutlined, CalendarOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons-vue';
 
-// tools.csl()
+tools.csl()
 
 // 路由
 const siderRoutes = [
