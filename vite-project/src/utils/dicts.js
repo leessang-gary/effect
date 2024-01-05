@@ -17,12 +17,18 @@ const siderRoutes = [
   { 
     path: '/', name: 'run', component: home,  icon: MailOutlined,
     children:[
-      { path: '/home/gsap', name: 'gsap', component: () => import('@/views/run/gsap.vue'), icon: MailOutlined,},
-      { path: '/home/anime', name: 'anime', component: () => import('@/views/run/anime.vue'), icon: AppstoreOutlined, },
-      { path: '/home/hanziwrite', name: 'hanziwrite', component: () => import('@/views/run/hanziwrite.vue'), icon: SettingOutlined, },
-      { path: '/home/svg', name: 'svg', component: () => import('@/views/run/svg.vue'), icon: CalendarOutlined, }
+      { path: '/run/gsap', name: 'gsap', component: () => import('@/views/run/gsap.vue'), icon: MailOutlined,},
+      { path: '/run/anime', name: 'anime', component: () => import('@/views/run/anime.vue'), icon: AppstoreOutlined, },
+      { path: '/run/hanziwrite', name: 'hanziwrite', component: () => import('@/views/run/hanziwrite.vue'), icon: SettingOutlined, },
+      { path: '/run/svg', name: 'svg', component: () => import('@/views/run/svg.vue'), icon: CalendarOutlined, },
     ]
   }, 
+  { 
+    path: '/', name: 'three', component: home,  icon: MailOutlined,
+    children:[
+      { path: '/three/plane', name: 'plane', component: () => import('@/views/three/plane.vue'), icon: CalendarOutlined, }
+    ]
+  },
 ]
 // 侧边栏菜单
 const siderMenus = siderRoutes.map( route => {
