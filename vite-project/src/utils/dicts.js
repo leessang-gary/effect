@@ -26,7 +26,7 @@ const siderRoutes = [
   { 
     path: '/', name: 'three', component: home,  icon: MailOutlined,
     children:[
-      { path: '/three/plane', name: 'plane', component: () => import('@/views/three/plane.vue'), icon: CalendarOutlined, }
+      { path: '/three/sheep', name: 'sheep', component: () => import('@/views/three/sheep.vue'), icon: CalendarOutlined, }
     ]
   },
 ]
