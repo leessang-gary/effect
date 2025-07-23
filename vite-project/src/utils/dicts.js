@@ -2,7 +2,9 @@ import home from '@/views/home/index.vue'
 import login from '@/views/login/index.vue'
 import tools from '@/utils/tools.js'
 import { h, ref } from 'vue';
-import { MailOutlined, CalendarOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons-vue';
+import { MailOutlined, CalendarOutlined, AppstoreOutlined,
+  SettingOutlined, CalendarTwoTone, CarOutlined  
+} from '@ant-design/icons-vue';
 
 tools.csl()
 
@@ -12,6 +14,7 @@ const siderRoutes = [
     path: '/', name: 'home', component: home,  icon: MailOutlined,
     children:[
       { path: '/home/about', name: 'about', component: () => import('@/views/home/about.vue'), icon: CalendarOutlined, },
+      { path: '/home/drag', name: 'drag', component: () => import('@/views/home/drag.vue'), icon: CarOutlined, },
     ]
   },
   { 
@@ -26,7 +29,8 @@ const siderRoutes = [
   { 
     path: '/', name: 'three', component: home,  icon: MailOutlined,
     children:[
-      { path: '/three/sheep', name: 'sheep', component: () => import('@/views/three/sheep.vue'), icon: CalendarOutlined, }
+      { path: '/three/sheep', name: 'sheep', component: () => import('@/views/three/sheep.vue'), icon: CalendarOutlined, },
+      { path: '/three/base', name: 'base', component: () => import('@/views/three/base.vue'), icon: CalendarTwoTone, }
     ]
   },
 ]

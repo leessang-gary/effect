@@ -16,7 +16,8 @@
 </template>
 <script setup>
 import { ref } from 'vue';
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router';
+import { useNavTabsStore } from '@/store/user';
 const router = useRouter()
 const route = useRoute()
 const selectedKeys = ref(['home']);
@@ -32,7 +33,13 @@ const props = defineProps({
 // console.log(props.list)
 
 function handleClick(e){
-  const path = e.item.to
+  const navTabsStore = useNavTabsStore();
+  const name = e.item.title;
+  const path = e.item.to;
+  // 添加 navtabs
+  navTabsStore.addNavTab({ name,  key: path, chosed: false });
+  // 选中 tab
+  navTabsStore.chooseNavTab(path)
   router.push( path)
 }
 
